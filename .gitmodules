@@ -4,3 +4,12 @@
 [submodule "src/antsy_simulation"]
 	path = src/antsy_simulation
 	url = https://github.com/Laroto/antsy_simulation
+[submodule "src/antsy_control"]
+	path = src/antsy_control
+	url = git@github.com:Laroto/antsy_control.git
+[submodule "src/antsy_kinematics"]
+	path = src/antsy_kinematics
+	url = git@github.com:Laroto/antsy_kinematics.git
+[submodule "src/antsy_msgs"]
+	path = src/antsy_msgs
+	url = git@github.com:Laroto/antsy_msgs.git

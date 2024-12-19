@@ -1,0 +1,3 @@
+[submodule "src/antsy_description"]
+	path = src/antsy_description
+	url = https://github.com/Laroto/antsy_description

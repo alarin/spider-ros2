@@ -25,12 +25,12 @@ RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pk
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    gz-fortress
+    gz-harmonic
 
 # Install other ROS-related packages
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ros-humble-ros-gz \
+    ros-humble-ros-gzharmonic \
     ros-humble-rqt* \
     ros-humble-plotjuggler-ros \
     ros-humble-xacro \
@@ -64,7 +64,7 @@ RUN groupadd --gid $USER_GID $USERNAME && \
     useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash $USERNAME
 
 # Give sudo privileges to the non-root user if needed
-# RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME
+RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME
 
 # Set up .bashrc
 ## Add terminal coloring for the new user

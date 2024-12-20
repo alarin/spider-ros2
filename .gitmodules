@@ -13,3 +13,6 @@
 [submodule "src/antsy_msgs"]
 	path = src/antsy_msgs
 	url = git@github.com:Laroto/antsy_msgs.git
+[submodule "src/ds4_launcher"]
+	path = src/ds4_launcher
+	url = git@github.com:Laroto/ds4_launcher.git

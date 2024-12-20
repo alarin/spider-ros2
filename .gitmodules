@@ -13,3 +13,6 @@
 [submodule "src/antsy_msgs"]
 	path = src/antsy_msgs
 	url = git@github.com:Laroto/antsy_msgs.git
+[submodule "src/joystick_ros2"]
+	path = src/joystick_ros2
+	url = git@github.com:FurqanHabibi/joystick_ros2.git

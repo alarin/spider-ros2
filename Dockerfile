@@ -1,6 +1,5 @@
 FROM ubuntu:22.04@sha256:aa772c98400ef833586d1d517d3e8de670f7e712bf581ce6053165081773259d
 
-
 # ROS2
 ## Install prerequisites
 RUN apt update && \
@@ -22,7 +21,7 @@ RUN apt update && \
 
 # Install Gazebo Harmonic
 RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     gz-harmonic
@@ -52,9 +51,21 @@ RUN pip install \
     ipympl \
     jupytext
 
+# Install ds4drv for PS4 controller
+RUN apt update && apt-get install -y \
+    udev \
+    libbluetooth-dev \
+    bluetooth \
+    bluez
+
+RUN pip install \
+    ds4drv
+
+# Set up udev rules
+RUN echo 'KERNEL=="uinput", GROUP="input", MODE="0666"' > /etc/udev/rules.d/99-uinput.rules
+
 # Clear apt cache
 RUN rm -rf /var/lib/apt/lists/*
-
 
 # Create a non-root user
 ARG USERNAME=user
@@ -65,6 +76,12 @@ RUN groupadd --gid $USER_GID $USERNAME && \
 
 # Give sudo privileges to the non-root user if needed
 RUN echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME
+
+# Create ds4user and add to groups
+RUN useradd -m ds4user && \
+    usermod -aG input ds4user && \
+    usermod -aG sudo ds4user && \
+    usermod -aG input $USERNAME
 
 # Set up .bashrc
 ## Add terminal coloring for the new user
@@ -78,4 +95,3 @@ USER $USERNAME
 
 # Set entry point
 CMD ["/bin/bash"]
-

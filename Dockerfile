@@ -7,7 +7,8 @@ FROM ${ARCH}ubuntu:22.04 AS base
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     curl wget gnupg2 lsb-release \
-    software-properties-common
+    software-properties-common \ 
+    rsync
 ## Enable required repositories
 RUN add-apt-repository universe
 ## Add ROS 2 GPG key
@@ -85,6 +86,9 @@ RUN useradd -m ds4user && \
     usermod -aG input ds4user && \
     usermod -aG sudo ds4user && \
     usermod -aG input $USERNAME
+
+# Give permission to dialout group (to access serial ports)
+RUN usermod -aG dialout $USERNAME
 
 # Set up .bashrc
 ## Add terminal coloring for the new user

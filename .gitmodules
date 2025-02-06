@@ -1,6 +1,6 @@
 [submodule "src/antsy_description"]
 	path = src/antsy_description
-	url = https://github.com/Laroto/antsy_description
+	url = git@github.com:Laroto/antsy_description.git
 [submodule "src/antsy_simulation"]
 	path = src/antsy_simulation
 	url = https://github.com/Laroto/antsy_simulation

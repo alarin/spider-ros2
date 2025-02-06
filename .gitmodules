@@ -16,3 +16,6 @@
 [submodule "src/ds4_launcher"]
 	path = src/ds4_launcher
 	url = git@github.com:Laroto/ds4_launcher.git
+[submodule "src/hiwonder_ros2"]
+	path = src/hiwonder_ros2
+	url = git@github.com:Laroto/hiwonder_ros2.git

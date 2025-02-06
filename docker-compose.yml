@@ -10,9 +10,11 @@ services:
       - /dev:/dev
       - /tmp:/tmp
       - /var/log/journal:/var/log/journal
-      - ${XAUTHORITY}:/home/user/.Xauthority:ro
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/home/user/.Xauthority:ro
     environment:
       # Application
+      # - PWD=${PWD}
+      # - HOME=${HOME}
       - DATA_PATH=${PWD}/data
       # Graphics
       - DISPLAY=${DISPLAY}
@@ -26,7 +28,7 @@ services:
     devices:
       - /dev/dri:/dev/dri  # Allow access to GPU devices if needed
     #runtime: nvidia
-    network_mode: host
+    network_mode: ${NETWORK_MODE:-host}
     privileged: true
     restart: unless-stopped
     security_opt:

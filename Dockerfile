@@ -1,4 +1,6 @@
-FROM ubuntu:22.04@sha256:aa772c98400ef833586d1d517d3e8de670f7e712bf581ce6053165081773259d
+ARG ARCH=""
+FROM ${ARCH}ubuntu:22.04 AS base
+# FROM ubuntu:22.04@sha256:aa772c98400ef833586d1d517d3e8de670f7e712bf581ce6053165081773259d
 
 # ROS2
 ## Install prerequisites
@@ -22,14 +24,15 @@ RUN apt update && \
 # Install Gazebo Harmonic
 RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-RUN apt update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    gz-harmonic
+# RUN apt update && \
+#     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+#     gz-harmonic
 
 # Install other ROS-related packages
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ros-humble-ros-gzharmonic \
+    ros-humble-ros-gz \
+    # ros-humble-ros-gzharmonic \
     ros-humble-rqt* \
     ros-humble-plotjuggler-ros \
     ros-humble-xacro \

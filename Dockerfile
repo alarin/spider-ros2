@@ -100,5 +100,8 @@ RUN echo "source install/setup.bash" >> /home/$USERNAME/.bashrc
 # Switch to the non-root user
 USER $USERNAME
 
-# Set entry point
-CMD ["/bin/bash"]
+# Copy entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+
+# Set entrypoint (if needed)
+# ENTRYPOINT ["/entrypoint.sh"]

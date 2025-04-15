@@ -32,13 +32,13 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 # Install other ROS-related packages
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ros-humble-ros-gz \
-    # ros-humble-ros-gzharmonic \
     ros-humble-rqt* \
     ros-humble-plotjuggler-ros \
     ros-humble-xacro \
     ros-humble-joint-state-publisher \
-    ros-humble-joint-state-publisher-gui
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-actuator-msgs \
+    ros-humble-rmw-cyclonedds-cpp
 
 # Install other non-ROS packages
 RUN apt update && \
@@ -96,6 +96,12 @@ RUN echo 'PS1="(container) ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\
 ## Source ROS 2 setup
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/$USERNAME/.bashrc
 RUN echo "source install/setup.bash" >> /home/$USERNAME/.bashrc
+
+WORKDIR /home/antsy
+
+# Initialize rosdep
+RUN rosdep init && \
+    rosdep update
 
 # Switch to the non-root user
 USER $USERNAME

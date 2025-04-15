@@ -4,9 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ["/bin/bash", "/entrypoint.sh"]
-    working_dir: ${PWD}
+    # working_dir: /home/user/antsy
     volumes:
-      - ./:${PWD}
+      - ./:/home/antsy
       - /dev:/dev
       - /tmp:/tmp
       - /var/log/journal:/var/log/journal
@@ -21,6 +21,8 @@ services:
       # ROS 2
       - COLCON_HOME=${PWD}/.colcon
       - ROS_DOMAIN_ID=0
+      - ROS_LOCALHOST_ONLY=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       # Other
       - HISTFILE=${PWD}/.bash_history
     devices:
@@ -85,3 +87,28 @@ services:
     # shm_size: 256m
     shm_size: 512M
 
+  simulator:
+    build:
+      context: ./simulator
+    container_name: antsy-gazebo
+    network_mode: host
+    privileged: true
+    stdin_open: true
+    tty: true
+    runtime: nvidia
+    environment:
+    # Application
+      - DATA_PATH=/home/antsy/data
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    # ROS 2
+      - ROS_DOMAIN_ID=0
+      - ROS_LOCALHOST_ONLY=0
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    volumes:
+      - ./:/home/antsy
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    # Ensure the launch file exists and is executable
+    command: ["/bin/bash", "/entrypoint.sh"]

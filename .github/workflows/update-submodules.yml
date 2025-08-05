@@ -31,7 +31,7 @@ jobs:
 
       - name: Update submodules from remote
         run: |
-          git submodule update --remote --merge
+          git submodule update --remote
           git status
 
       - name: Commit and push changes if any

@@ -1,0 +1,45 @@
+name: Update Submodules
+
+on:
+  push:
+    branches:
+      - main              # Run when code is pushed to main
+      - master            # Also run for master branch
+  pull_request:
+    branches:
+      - main              # Run when a PR targets main
+      - master            # Also run for PRs targeting master
+  workflow_dispatch:       # Allow manual run from GitHub UI
+  schedule:
+    - cron: '0 4 * * *'   # Run every day at 4 AM UTC
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Git user for commits
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update submodules from remote
+        run: |
+          git submodule update --remote --merge
+          git status
+
+      - name: Commit and push changes if any
+        run: |
+          if ! git diff --quiet; then
+            git add .
+            git commit -m "chore: update submodules"
+            git push origin HEAD:main
+          else
+            echo "No submodule updates to commit"
+          fi

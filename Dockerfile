@@ -105,7 +105,7 @@ RUN rosdep init && \
 
 # Switch to the non-root user
 USER $USERNAME
-
+RUN cd /home/$USERNAME/ && colcon build
 # Copy entrypoint.sh
 COPY entrypoint.sh /entrypoint.sh
 

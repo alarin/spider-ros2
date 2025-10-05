@@ -3,6 +3,11 @@ Yetti? Well, it is not a spider. It's more like an aberration, like a Yetti!
 
 This package can be used for hexapod simulation in ROS2, specifically Gazebo but it was also tested with ISAAC Sim.
 
+## Gazebo simulator on mac
+https://github.com/Tiryoh/docker-ros2-desktop-vnc?tab=readme-ov-file
+
+http://127.0.0.1:6080/
+
 ## Instalation
 
 - `git clone git@github.com:Laroto/antsy.git`

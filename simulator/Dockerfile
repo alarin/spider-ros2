@@ -1,5 +1,5 @@
 
-FROM ghcr.io/tiryoh/ros2-desktop-vnc:jazzy
+FROM --platform=linux/amd64 ghcr.io/tiryoh/ros2-desktop-vnc:jazzy
 
 # Install deps
 RUN apt update && apt install -y \

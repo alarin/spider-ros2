@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ["/bin/bash", "/entrypoint.sh"]
+
     # working_dir: /home/user/antsy
     volumes:
       - ./:/home/antsy
@@ -95,7 +96,7 @@ services:
     privileged: true
     stdin_open: true
     tty: true
-    runtime: nvidia
+    #runtime: nvidia
     environment:
     # Application
       - DATA_PATH=/home/antsy/data
@@ -111,4 +112,4 @@ services:
       - ./:/home/antsy
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     # Ensure the launch file exists and is executable
-    command: ["/bin/bash", "/entrypoint.sh"]
+    command: ["/bin/bash", "/ros_entrypoint.sh"]
